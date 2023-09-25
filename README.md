@@ -1,6 +1,8 @@
-# MDN React Todo list
+# MDN React Todo List
 
-[Getting started with React](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started)
+[Getting started with React MDN Tutorial](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started)
+
+[MDN Todo List React App](https://mdn.github.io/todo-react)
 
 # Getting Started with Create React App
 
