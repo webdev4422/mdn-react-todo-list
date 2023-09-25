@@ -1,8 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
+// Function to handle previous state
+function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
 
 function Todo(props) {
   const [isEditing, setEditing] = useState(false)
   const [newName, setNewName] = useState('') // Handle editing functionality
+  const wasEditing = usePrevious(isEditing) // Track previous state of isEditing
 
   // For focus references
   const editFieldRef = useRef(null)
@@ -75,6 +85,17 @@ function Todo(props) {
       </div>
     </div>
   )
+
+  // Use useEffect hook to change focus if 'isEditing' value being changed (as second argument to useEffect -> [isEditing])
+  // Updated with usePrevious function
+  useEffect(() => {
+    if (!wasEditing && isEditing) {
+      editFieldRef.current.focus()
+    }
+    if (wasEditing && !isEditing) {
+      editButtonRef.current.focus()
+    }
+  }, [wasEditing, isEditing])
 
   return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>
 }
