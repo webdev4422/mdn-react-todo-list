@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Form from './components/Form'
 import FilterButton from './components/FilterButton'
 import Todo from './components/Todo'
 
 function App(props) {
+  // Store our tasks in state
+  const [tasks, setTasks] = useState(props.tasks)
+
   // Handle form submission via callback
   // Create addTask function to pass it to Form component as callback function with props
   function addTask(name) {
     alert(name)
   }
 
-  const taskList = props.tasks.map((task) => (
+  // mapping tasks, instead of props.tasks.
+  const taskList = tasks.map((task) => (
     <Todo id={task.id} name={task.name} completed={task.completed} key={task.id} />
   ))
 
