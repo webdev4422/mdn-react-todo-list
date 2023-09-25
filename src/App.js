@@ -12,7 +12,7 @@ function App(props) {
   // Create addTask function to pass it to Form component as callback function with props
   function addTask(name) {
     const newTask = { id: `todo-${nanoid()}`, name, completed: false }
-    console.log(newTask)
+    console.log(`Added new task with id ${newTask.id}`)
     setTasks([...tasks, newTask])
   }
 
@@ -31,6 +31,13 @@ function App(props) {
     setTasks(updatedTasks)
   }
 
+  // Deleting a task will follow a similar pattern to toggling its completed state: we need to define a function for updating our state, then pass that function into <Todo /> as a prop and call it when the right event happens.
+  function deleteTask(id) {
+    const remainingTasks = tasks.filter((task) => id !== task.id)
+    console.log(`Deleted task with id ${id}`)
+    setTasks(remainingTasks)
+  }
+
   // mapping tasks, instead of props.tasks.
   const taskList = tasks.map((task) => (
     <Todo
@@ -39,6 +46,7 @@ function App(props) {
       completed={task.completed}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
+      deleteTask={deleteTask}
     />
   ))
 
