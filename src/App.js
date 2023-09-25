@@ -16,9 +16,30 @@ function App(props) {
     setTasks([...tasks, newTask])
   }
 
+  // Fix checkbox functionality sync JS with HTML
+  function toggleTaskCompleted(id) {
+    const updatedTasks = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        // use object spread to make a new object
+        // whose `completed` prop has been inverted
+        return { ...task, completed: !task.completed }
+      }
+      return task
+    })
+    // Update our state with new task
+    setTasks(updatedTasks)
+  }
+
   // mapping tasks, instead of props.tasks.
   const taskList = tasks.map((task) => (
-    <Todo id={task.id} name={task.name} completed={task.completed} key={task.id} />
+    <Todo
+      id={task.id}
+      name={task.name}
+      completed={task.completed}
+      key={task.id}
+      toggleTaskCompleted={toggleTaskCompleted}
+    />
   ))
 
   // counting tasks
