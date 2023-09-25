@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { nanoid } from 'nanoid'
 import Form from './components/Form'
 import FilterButton from './components/FilterButton'
 import Todo from './components/Todo'
@@ -10,7 +11,8 @@ function App(props) {
   // Handle form submission via callback
   // Create addTask function to pass it to Form component as callback function with props
   function addTask(name) {
-    const newTask = { id: 'id', name, completed: false }
+    const newTask = { id: `todo-${nanoid()}`, name, completed: false }
+    console.log(newTask)
     setTasks([...tasks, newTask])
   }
 
