@@ -10,7 +10,8 @@ function App(props) {
   // Handle form submission via callback
   // Create addTask function to pass it to Form component as callback function with props
   function addTask(name) {
-    alert(name)
+    const newTask = { id: 'id', name, completed: false }
+    setTasks([...tasks, newTask])
   }
 
   // mapping tasks, instead of props.tasks.
