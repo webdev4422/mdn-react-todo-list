@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { nanoid } from 'nanoid'
 import Form from './components/Form'
 import FilterButton from './components/FilterButton'
 import Todo from './components/Todo'
 
+// Functions to make focus references work properly
+function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
+
+// Object to filter taks by all/active/inactive
 const FILTER_MAP = {
   All: () => true,
   Active: (task) => !task.completed,
   Completed: (task) => task.completed,
 }
-
 const FILTER_NAMES = Object.keys(FILTER_MAP)
 
 function App(props) {
@@ -17,6 +26,8 @@ function App(props) {
   const [tasks, setTasks] = useState(props.tasks)
   // Filter hook
   const [filter, setFilter] = useState('All')
+  // Use references
+  const listHeadingRef = useRef(null)
 
   // Handle form submission via callback
   // Create addTask function to pass it to Form component as callback function with props
@@ -86,12 +97,23 @@ function App(props) {
   const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task'
   const headingText = `${taskList.length} ${tasksNoun} remaining`
 
+  // For focus references
+  const prevTaskLength = usePrevious(tasks.length)
+  useEffect(() => {
+    if (tasks.length - prevTaskLength === -1) {
+      listHeadingRef.current.focus()
+    }
+  }, [tasks.length, prevTaskLength]) // Track if changes in list, then change focus
+
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
       <Form addTask={addTask} /> {/* Pass addTask() to Form component as prop */}
       <div className="filters btn-group stack-exception">{filterList}</div>
-      <h2 id="list-heading">{headingText}</h2>
+      {/* Add tabIndex="-1" to make h2 focusable */}
+      <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
+        {headingText}
+      </h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
